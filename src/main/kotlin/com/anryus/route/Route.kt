@@ -1,8 +1,11 @@
 package com.anryus.route
 
 import com.anryus.dao.impl.PostDAOFacadeImpl
+import com.anryus.dao.impl.UserDAOFacadeImpl
+import com.anryus.model.User
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -33,4 +36,38 @@ fun Route.postRouting() {
 
     }
 
+}
+
+fun Route.userRouting() {
+    val userDao = UserDAOFacadeImpl()
+    route("/user") {
+
+        get("{username?}") {
+            val username = call.parameters["username"] ?: return@get call.respondText(
+                "Miss username.",
+                status = HttpStatusCode.BadRequest
+            )
+
+            val user = userDao.userInfo(username) ?: return@get call.respondText(
+                "Not found user.",
+                status = HttpStatusCode.NotFound
+            )
+
+            user.password = ""
+
+            call.respond(user)
+
+        }
+
+        post {
+            val user = call.receive<User>()
+            val userInfo = userDao.userInfo(user.username)
+
+            if (userInfo!=null){
+                return@post call.respondText("Username already used.", status = HttpStatusCode.BadRequest)
+            }
+            userDao.addNewUser(user.username,user.password,user.role)
+            call.respond(HttpStatusCode.OK)
+        }
+    }
 }

@@ -2,8 +2,8 @@ package com.anryus.dao.impl
 
 import com.anryus.dao.PostDAOFacade
 import com.anryus.dao.DatabaseSingleton.query
-import com.anryus.blog.model.Post
-import com.anryus.blog.model.Posts
+import com.anryus.model.Post
+import com.anryus.model.Posts
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert

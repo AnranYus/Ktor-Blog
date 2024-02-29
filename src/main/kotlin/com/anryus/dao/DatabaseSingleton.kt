@@ -1,6 +1,7 @@
 package com.anryus.dao
 
-import com.anryus.blog.model.Posts
+import com.anryus.model.Posts
+import com.anryus.model.Users
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -16,6 +17,7 @@ object  DatabaseSingleton {
         val database = Database.connect(url, driverClassName,username,password)
         transaction(database) {
             SchemaUtils.create(Posts)
+            SchemaUtils.create(Users)
         }
     }
 
