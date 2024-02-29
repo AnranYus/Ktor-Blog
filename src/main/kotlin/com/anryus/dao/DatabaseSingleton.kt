@@ -10,8 +10,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object  DatabaseSingleton {
     fun init(){
         val driverClassName = "com.mysql.cj.jdbc.Driver"
-        val url = "jdbc:mysql://localhost:3306/ktor_blog?username=ktor-blog&password=ktor-blog"
-        val database = Database.connect(url, driverClassName)
+        val url = "jdbc:mysql://localhost:3306/ktor_blog"
+        val username = "ktor_blog"
+        val password = "ktor_blog"
+        val database = Database.connect(url, driverClassName,username,password)
         transaction(database) {
             SchemaUtils.create(Posts)
         }
